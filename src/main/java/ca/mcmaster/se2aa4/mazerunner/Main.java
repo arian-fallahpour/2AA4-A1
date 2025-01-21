@@ -12,43 +12,37 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Main {
-    private static final Logger logger = LogManager.getLogger();
-
     public static void main(String[] args) {
-        logger.info(">> Starting Maze Runner");
-
         Options options = new Options();
-        options.addOption("i", null, true, "Path to maze file.");
         CommandLineParser parser = new DefaultParser();
+
+        options.addOption("i", null, true, "Path to maze file.");
 
         try {
             CommandLine cmd = parser.parse(options, args);
             
-            String filePath = null;
-            if (cmd.hasOption("i")) {
-                filePath = cmd.getOptionValue("i");
-            }
+            String filePath = "./examples/straight.maz.txt";
+            // if (cmd.hasOption("i")) {
+            //     filePath = cmd.getOptionValue("i");
+            // }
 
-            logger.info(">> Reading the maze from file " + filePath);
-            logger.info(">> Computing path");
+            // Create new maze and load it from file
+            Maze maze = new Maze(filePath);
+            maze.loadMaze();
 
-            String line;
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        System.out.print("WALL ");
-                    } else if (line.charAt(idx) == ' ') {
-                        System.out.print("PASS ");
-                    }
-                }
-                System.out.print(System.lineSeparator());
-            }
-            reader.close();
+            // Initialize player
+            Vector playerStartPosition = maze.getStartPosition();
+            Vector playerStartDirection = new Vector(1, 0);
+            Player player = new Player(playerStartPosition, playerStartDirection);
+
+            // Create and start game
+            Game game = new Game(player, maze);
+            game.startGame();
+
+            player.displayInstructions();
+
         } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
-            logger.error("PATH NOT COMPUTED");
+            System.err.println(e.getMessage());
         }
-        logger.info(">> End of MazeRunner");
     }
 }
