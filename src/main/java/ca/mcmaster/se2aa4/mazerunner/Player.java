@@ -16,7 +16,7 @@ public class Player {
     // Moves player one step forward in the direction they are facing
     public void moveForward() {
         this.position.add(this.direction);
-        this.path.addInstruction(null);("F");
+        this.path.addInstruction(null);
     }
     
     // Turns player's direction 90 degrees clockwise
