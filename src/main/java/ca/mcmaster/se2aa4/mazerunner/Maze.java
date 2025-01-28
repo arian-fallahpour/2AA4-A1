@@ -96,33 +96,6 @@ public class Maze {
     private void setStartDirection() {
         this.startDirection = new Vector(1, 0);
     }
-
-    // Returns true if the provided path solves the maze, otherwise false
-    public Boolean verifyPath(String providedPath) {
-        Vector position = this.getStartPosition();
-        Vector direction = this.getStartDirection();
-        
-        for (int i = 0; i < providedPath.length(); i++) {
-            if (!this.isPositionEmpty(position)) {
-                return false;
-            }
-
-            char c = providedPath.charAt(i);
-            if (c == 'F') {
-                position = position.add(direction);
-            } else if (c == 'R') {
-                direction.rotate90(1);
-            } else if (c == 'L') {
-                direction.rotate90(-1);
-            }
-        }
-
-        if (!this.isEndPosition(position)) {
-            return false;
-        }
-
-        return true;
-    }
     
     // Checks if the position is empty on maze at specified position
     public Boolean isPositionEmpty(Vector position) {
