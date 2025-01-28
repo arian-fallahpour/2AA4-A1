@@ -1,9 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -16,15 +12,25 @@ public class Main {
         Options options = new Options();
         CommandLineParser parser = new DefaultParser();
 
-        options.addOption("i", null, true, "Path to maze file.");
+        options.addOption("i", null, true, "Maze file name.");
+        options.addOption("p", null, true, "");
 
         try {
             CommandLine cmd = parser.parse(options, args);
             
-            String filePath = "./examples/straight.maz.txt";
-            // if (cmd.hasOption("i")) {
-            //     filePath = cmd.getOptionValue("i");
-            // }
+            // Check if user provided the maze file
+            String filePath = "./examples/";
+            if (cmd.hasOption("i")) {
+                filePath += cmd.getOptionValue("i");
+            } else {
+                filePath += "straight.maz.txt";
+            }
+
+            // Check if user wants to verify their provided path
+            String providedPath = null;
+            if (cmd.hasOption("p")) {
+                providedPath = cmd.getOptionValue("p");
+            }
 
             // Create new maze and load it from file
             Maze maze = new Maze(filePath);
@@ -35,9 +41,19 @@ public class Main {
             Vector playerStartDirection = new Vector(1, 0);
             Player player = new Player(playerStartPosition, playerStartDirection);
 
-            // Create and start game
+            // Create game
             Game game = new Game(player, maze);
-            game.startGame();
+
+            // If path was provided, check if it valid
+            if (providedPath != null) {
+
+            } 
+            
+            // Otherwise, find the path
+            else {
+
+                game.startGame();
+            }
 
             player.displayInstructions();
 
