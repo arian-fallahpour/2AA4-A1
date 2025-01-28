@@ -5,30 +5,30 @@ import java.util.ArrayList;
 public class Player {
     private Vector direction;
     private Vector position;
-    private ArrayList<String> instructions;
+    private Path path;
 
-    public Player(Vector position, Vector direction) {
+    public Player(Vector position, Vector direction, Path path) {
         this.direction = direction;
         this.position = position;
-        this.instructions = new ArrayList<String>();
+        this.path = path;
     }
 
     // Moves player one step forward in the direction they are facing
     public void moveForward() {
         this.position.add(this.direction);
-        this.instructions.add("F");
+        this.path.addInstruction(null);("F");
     }
     
     // Turns player's direction 90 degrees clockwise
     public void turnClockwise() {
         this.direction.rotate90(1);
-        this.instructions.add("R");
+        this.path.addInstruction("R");
     }
     
     // Turns player's direction 90 degrees counter clockwise
     public void turnCounterClockwise() {
         this.direction.rotate90(-1);
-        this.instructions.add("L");
+        this.path.addInstruction("L");
     }
     
     // Traverses the maze 
@@ -46,18 +46,5 @@ public class Player {
     // Returns player's direction
     public Vector getDirection() {
         return this.direction;
-    }
-
-    // Returns player's instructions
-    public ArrayList<String> getInstructions() {
-        return this.instructions;
-    }
-
-    // Displays player's instructions
-    public void displayInstructions() {
-        for (int i = 0; i < this.instructions.size(); i++) {
-            System.out.print(this.instructions.get(i));
-        }
-        System.out.print(System.lineSeparator());
     }
 }
