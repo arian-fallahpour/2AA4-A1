@@ -27,33 +27,34 @@ public class Main {
             }
 
             // Check if user wants to verify their provided path
-            String providedPath = null;
+            String providedInstructions = null;
             if (cmd.hasOption("p")) {
-                providedPath = cmd.getOptionValue("p");
+                providedInstructions = cmd.getOptionValue("p");
             }
 
-            // Create new maze and load it from file
+            // Initialize objects
             Maze maze = new Maze(filePath);
-            maze.loadMaze();
-
-            // Initialize player
-            Player player = new Player(maze.getStartPosition(), maze.getStartDirection());
-
-            // If path was provided, check if it valid
-            if (providedPath != null) {
-                Boolean isPathValid = maze.verifyPath(providedPath);
-
-                if (isPathValid) {
-                    System.out.println(providedPath + " solves the maze.");
-                } else {
-                    System.out.println(providedPath + " does not solve the maze.");
-                }
-            } 
             
-            // Otherwise, find the path using the 
+            // If path was provided, check if it valid
+            if (providedInstructions != null) {
+                Path path = new Path(providedInstructions);
+                Boolean isPathValid = path.verify(maze);
+                String instructions = path.getInstructions();
+                
+                if (isPathValid) {
+                    System.out.println(instructions + " solves the maze.");
+                } else {
+                    System.out.println(instructions + " does not solve the maze.");
+                }
+            }
+            
+            // Otherwise, find the path using the maze
             else {
+                Path path = new Path("");
+                Player player = new Player(maze.getStartPosition(), maze.getStartDirection(), path);
                 player.traverseMaze(maze);
-                player.displayInstructions();
+                System.out.println(path.getCanonicalInstructions());
+                System.out.println(path.getFactoredInstructions());
             }
         } catch(Exception e) {
             System.err.println(e.getMessage());

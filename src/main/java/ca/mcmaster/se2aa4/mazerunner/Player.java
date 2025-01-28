@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.ArrayList;
-
 public class Player {
     private Vector direction;
     private Vector position;
@@ -16,7 +14,7 @@ public class Player {
     // Moves player one step forward in the direction they are facing
     public void moveForward() {
         this.position.add(this.direction);
-        this.path.addInstruction(null);
+        this.path.addInstruction("F");
     }
     
     // Turns player's direction 90 degrees clockwise
@@ -46,5 +44,10 @@ public class Player {
     // Returns player's direction
     public Vector getDirection() {
         return this.direction;
+    }
+    
+    // Returns the path the player took
+    public Path getPath() {
+        return this.path;
     }
 }

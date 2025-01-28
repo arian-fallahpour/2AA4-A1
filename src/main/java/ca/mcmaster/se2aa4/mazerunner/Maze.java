@@ -16,6 +16,7 @@ public class Maze {
         }
 
         this.filePath = filePath;
+        this.loadMaze();
     }
 
     // Loads the maze from the file specified into private variable
