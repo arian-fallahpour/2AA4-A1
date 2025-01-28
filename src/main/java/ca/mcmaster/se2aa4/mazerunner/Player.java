@@ -33,8 +33,7 @@ public class Player {
     
     // Traverses the maze 
     public void traverseMaze(Maze maze) {
-        Vector endPosition = maze.getEndPosition();
-        while (this.position.x != endPosition.x || this.position.y != endPosition.y) {
+        while (maze.isEndPosition(this.position) == false) {
             this.moveForward();
         }
     }

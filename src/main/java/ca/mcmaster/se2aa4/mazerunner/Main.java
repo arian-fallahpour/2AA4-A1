@@ -37,26 +37,24 @@ public class Main {
             maze.loadMaze();
 
             // Initialize player
-            Vector playerStartPosition = maze.getStartPosition();
-            Vector playerStartDirection = new Vector(1, 0);
-            Player player = new Player(playerStartPosition, playerStartDirection);
-
-            // Create game
-            Game game = new Game(player, maze);
+            Player player = new Player(maze.getStartPosition(), maze.getStartDirection());
 
             // If path was provided, check if it valid
             if (providedPath != null) {
+                Boolean isPathValid = maze.verifyPath(providedPath);
 
+                if (isPathValid) {
+                    System.out.println(providedPath + " solves the maze.");
+                } else {
+                    System.out.println(providedPath + " does not solve the maze.");
+                }
             } 
             
-            // Otherwise, find the path
+            // Otherwise, find the path using the 
             else {
-
-                game.startGame();
+                player.traverseMaze(maze);
+                player.displayInstructions();
             }
-
-            player.displayInstructions();
-
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
