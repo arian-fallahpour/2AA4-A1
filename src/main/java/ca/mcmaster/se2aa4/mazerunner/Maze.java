@@ -16,7 +16,11 @@ public class Maze {
         }
 
         this.filePath = filePath;
+        
         this.loadMaze();
+        this.setStartPosition();
+        this.setEndPosition();
+        this.setStartDirection();
     }
 
     // Loads the maze from the file specified into private variable
@@ -54,11 +58,6 @@ public class Maze {
                     this.maze[r][c] = temp[r][c];
                 }
             }
-
-            // Set start and end positions, as well as start direction
-            this.setStartPosition();
-            this.setEndPosition();
-            this.setStartDirection();
         } catch(Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }

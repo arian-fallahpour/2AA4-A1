@@ -32,7 +32,7 @@ public class Main {
                 providedInstructions = cmd.getOptionValue("p");
             }
 
-            // Initialize objects
+            // Initialize maze
             Maze maze = new Maze(filePath);
             
             // If path was provided, check if it valid
@@ -50,9 +50,11 @@ public class Main {
             
             // Otherwise, find the path using the maze
             else {
-                Path path = new Path("");
-                Player player = new Player(maze.getStartPosition(), maze.getStartDirection(), path);
-                player.traverseMaze(maze);
+                Algorithm algorithm = new SimpleAlgorithm(maze.getStartPosition(), maze.getStartDirection());
+                Path path = algorithm.getPath();
+
+                algorithm.solveMaze(maze);
+                
                 System.out.println(path.getCanonicalInstructions());
                 System.out.println(path.getFactoredInstructions());
             }

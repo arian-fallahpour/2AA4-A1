@@ -1,39 +1,32 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class Player {
-    private Vector direction;
-    private Vector position;
-    private Path path;
+abstract class Algorithm {
+    protected Vector direction;
+    protected Vector position;
+    protected Path path;
 
-    public Player(Vector position, Vector direction, Path path) {
+    public Algorithm(Vector position, Vector direction) {
         this.direction = direction;
         this.position = position;
-        this.path = path;
+        this.path = new Path("");
     }
 
-    // Moves player one step forward in the direction they are facing
+    // Moves position one step forware in current direction
     public void moveForward() {
         this.position.add(this.direction);
         this.path.addInstruction("F");
     }
     
-    // Turns player's direction 90 degrees clockwise
+    // Turns current direction 90 degrees clockwise
     public void turnClockwise() {
         this.direction.rotate90(1);
         this.path.addInstruction("R");
     }
     
-    // Turns player's direction 90 degrees counter clockwise
+    // Turns current direction 90 degrees counter clockwise
     public void turnCounterClockwise() {
         this.direction.rotate90(-1);
         this.path.addInstruction("L");
-    }
-    
-    // Traverses the maze 
-    public void traverseMaze(Maze maze) {
-        while (maze.isEndPosition(this.position) == false) {
-            this.moveForward();
-        }
     }
 
     // Returns player's position
@@ -46,8 +39,10 @@ public class Player {
         return this.direction;
     }
     
-    // Returns the path the player took
+    // Returns the path class instance the was created
     public Path getPath() {
         return this.path;
     }
+
+    public abstract void solveMaze(Maze maze);
 }
