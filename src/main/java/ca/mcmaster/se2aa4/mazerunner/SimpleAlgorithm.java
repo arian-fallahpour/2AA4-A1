@@ -6,8 +6,16 @@ public class SimpleAlgorithm extends Algorithm {
     }
 
     public void solveMaze(Maze maze) {
-        while (!maze.isEndPosition(this.position)) {
-            this.moveForward();
+        try {
+            while (!maze.isEndPosition(this.position)) {
+                if (!maze.isPositionEmpty(this.position)) {
+                    throw new Error("Algorithm failed to solve maze");
+                }
+            
+                this.moveForward();
+            }
+        } catch(Exception e) {
+            throw new Error(e.getMessage());
         }
     }
 }

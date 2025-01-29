@@ -50,7 +50,7 @@ public class Main {
             
             // Otherwise, find the path using the maze
             else {
-                Algorithm algorithm = new SimpleAlgorithm(maze.getStartPosition(), maze.getStartDirection());
+                Algorithm algorithm = new RightHandAlgorithm(maze.getStartPosition(), maze.getStartDirection());
                 Path path = algorithm.getPath();
 
                 algorithm.solveMaze(maze);

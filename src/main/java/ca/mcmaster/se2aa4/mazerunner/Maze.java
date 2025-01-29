@@ -18,53 +18,10 @@ public class Maze {
         this.filePath = filePath;
         
         this.loadMaze();
-        this.setStartPosition();
-        this.setEndPosition();
-        this.setStartDirection();
-    }
-
-    // Loads the maze from the file specified into private variable
-    public void loadMaze() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(this.filePath));
-            String[][] temp = new String[1000][1000];
-
-            // Read maze and ssve it to temp array
-            String line;
-            Integer maxRows = 0;
-            Integer maxCols = 0;
-            while ((line = reader.readLine()) != null) {
-                for (int c = 0; c < line.length(); c++) {
-                    Character character = line.charAt(c);
-                    if (character == '#') {
-                        temp[maxRows][c] = "#";
-                    } else {
-                        temp[maxRows][c] = " ";
-                    }
-
-                    if (c > maxCols) {
-                        maxCols = c;
-                    }
-                }
-                maxRows++;
-            }
-
-            reader.close();
-
-            // Copy temp array to maze array with correct size
-            this.maze = new String[maxRows][maxCols];
-            for (int r = 0; r < maxRows; r++) {
-                for (int c = 0; c < maxCols; c++) {
-                    this.maze[r][c] = temp[r][c];
-                }
-            }
-        } catch(Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
     }
 
     // Displays the maze in the output
-    public void displayMaze() {
+    public void printMaze() {
         for (int r = 0; r < this.maze.length; r++) {
             for (int c = 0; c < this.maze[r].length; c++) {
                 System.out.print(this.maze[r][c]);
@@ -72,6 +29,51 @@ public class Maze {
             System.out.print(System.lineSeparator());
         }
         System.out.print(System.lineSeparator());
+    }
+
+    // Loads the maze from the file specified into private variable
+    public void loadMaze() {
+        Integer maxRows = 0;
+        Integer maxCols = 0;
+        String[][] temp = new String[1000][1000];
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(this.filePath));
+            
+            // Read maze and ssve it to temp array
+            String line;
+            while ((line = reader.readLine()) != null) {
+                for (int c = 0; c < line.length(); c++) {
+                    Character character = line.charAt(c);
+                    if (character == '#') {
+                        temp[maxRows][c] = "#";
+                    }
+
+                    if (c + 1 > maxCols) {
+                        maxCols = c + 1;
+                    }
+                }
+
+                maxRows++;
+            }
+
+            reader.close();
+        } catch(Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
+        // Copy temp array to maze array with correct size
+        this.maze = new String[maxRows][maxCols];
+        for (int r = 0; r < maxRows; r++) {
+            for (int c = 0; c < maxCols; c++) {
+                this.maze[r][c] = temp[r][c] != null ? "#" : " ";
+            }
+        }
+
+        // Set position and direction vectors
+        this.setStartPosition();
+        this.setEndPosition();
+        this.setStartDirection();
     }
     
     private void setStartPosition() {
