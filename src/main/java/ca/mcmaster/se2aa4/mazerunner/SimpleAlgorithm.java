@@ -8,7 +8,7 @@ public class SimpleAlgorithm extends Algorithm {
     public void solveMaze(Maze maze) {
         try {
             while (!maze.isEndPosition(this.position)) {
-                if (!maze.isPositionEmpty(this.position)) {
+                if (maze.isOutOfBounds(this.position)) {
                     throw new Error("Algorithm failed to solve maze");
                 }
             

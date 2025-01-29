@@ -109,6 +109,12 @@ public class Maze {
         return position.x == this.endPosition.x && position.y == this.endPosition.y;
     }
 
+    public Boolean isOutOfBounds(Vector position) {
+        Integer rows = this.maze.length;
+        Integer cols = this.maze[0].length;
+        return position.x < 0 || position.x >= cols || position.y < 0 || position.y >= rows;
+    }
+
     public Vector getStartPosition() {
         return this.startPosition;
     }
