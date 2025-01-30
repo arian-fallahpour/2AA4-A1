@@ -78,7 +78,7 @@ public class Maze {
     
     private void setStartPosition() {
         for (int r = 0; r < this.maze.length; r++) {
-            if (this.maze[r][0] == " ") {
+            if (this.maze[r][0].equals(" ")) {
                 this.startPosition = new Vector(0, r);
                 break;
             }
@@ -88,7 +88,7 @@ public class Maze {
     private void setEndPosition() {
         Integer lastCol = this.maze[0].length - 1;
         for (int r = 0; r < this.maze.length; r++) {
-            if (this.maze[r][lastCol] == " ") {
+            if (this.maze[r][lastCol].equals(" ")) {
                 this.endPosition = new Vector(lastCol, r);
                 break;
             }

@@ -39,7 +39,7 @@ public class Main {
 
             // Initialize maze
             Maze maze = new Maze(filePath);
-            
+
             // If path was provided, check if it valid
             if (providedInstructions != null) {
                 Path path = new Path(providedInstructions);
@@ -64,7 +64,7 @@ public class Main {
             
             algorithm.solveMaze(maze);
             Path path = algorithm.getPath();
-
+ 
             System.out.println(path.getFactoredInstructions());
         } catch(Exception e) {
             System.err.println(e.getMessage());
