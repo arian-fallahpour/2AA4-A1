@@ -10,8 +10,9 @@ public class Main {
         Options options = new Options();
         CommandLineParser parser = new DefaultParser();
 
-        options.addOption("i", null, true, "Maze file name.");
-        options.addOption("p", null, true, "");
+        options.addOption("i", null, true, "Sets the maze to the filename provided.");
+        options.addOption("p", null, true, "Allows you to verify if a path is valid.");
+        options.addOption("method", null, true, "Allows you to choose the maze solving algorithm to use.");
 
         try {
             CommandLine cmd = parser.parse(options, args);
@@ -30,6 +31,12 @@ public class Main {
                 providedInstructions = cmd.getOptionValue("p");
             }
 
+            // Determine algorithm to use in order to solve maze
+            String solvingMethod = "righthand";
+            if (cmd.hasOption("method")) {
+                solvingMethod = cmd.getOptionValue("method");
+            }
+
             // Initialize maze
             Maze maze = new Maze(filePath);
             
@@ -37,25 +44,28 @@ public class Main {
             if (providedInstructions != null) {
                 Path path = new Path(providedInstructions);
                 Boolean isPathValid = path.verify(maze);
-                String instructions = path.getInstructions();
                 
                 if (isPathValid) {
-                    System.out.println(instructions + " solves the maze.");
+                    System.out.println("correct path");
                 } else {
-                    System.out.println(instructions + " does not solve the maze.");
+                    System.out.println("incorrect path");
                 }
+
+                return;
             }
             
             // Otherwise, find the path using the maze
-            else {
-                Algorithm algorithm = new RightHandAlgorithm(maze.getStartPosition(), maze.getStartDirection());
-                Path path = algorithm.getPath();
-
-                algorithm.solveMaze(maze);
-                
-                System.out.println(path.getCanonicalInstructions());
-                System.out.println(path.getFactoredInstructions());
+            Algorithm algorithm;
+            if (solvingMethod.equals("simple")) {
+                algorithm = new SimpleAlgorithm(maze.getStartPosition(), maze.getStartDirection());
+            } else {
+                algorithm = new RightHandAlgorithm(maze.getStartPosition(), maze.getStartDirection());
             }
+            
+            algorithm.solveMaze(maze);
+            Path path = algorithm.getPath();
+
+            System.out.println(path.getFactoredInstructions());
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
