@@ -17,6 +17,10 @@ public class Path {
         Vector direction = maze.getStartDirection();
         
         for (int i = 0; i < this.instructions.length(); i++) {
+            if (maze.isOutOfBounds(position) || !maze.isPositionEmpty(position)) {
+                return false;
+            }
+
             String c = Character.toString(this.instructions.charAt(i));
 
             // Check if number was provided before the instruction
@@ -28,7 +32,7 @@ public class Path {
 
             c = Character.toString(this.instructions.charAt(i));
             for (int j = 0; j < count; j++) {
-                if (!maze.isPositionEmpty(position) || maze.isOutOfBounds(position)) {
+                if (maze.isOutOfBounds(position) || !maze.isPositionEmpty(position)) {
                     return false;
                 }
 
