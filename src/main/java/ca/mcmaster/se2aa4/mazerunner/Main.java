@@ -18,11 +18,11 @@ public class Main {
             CommandLine cmd = parser.parse(options, args);
             
             // Check if user provided the maze file
-            String filePath = "./examples/";
+            String filePath = "";
             if (cmd.hasOption("i")) {
                 filePath += cmd.getOptionValue("i");
             } else {
-                filePath += "straight.maz.txt";
+                filePath += "./examples/straight.maz.txt";
             }
 
             // Check if user wants to verify their provided path
