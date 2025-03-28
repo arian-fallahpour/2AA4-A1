@@ -1,4 +1,7 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Algorithm;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Vector;
 
 public class SimpleAlgorithm extends Algorithm {
     public SimpleAlgorithm(Vector position, Vector direction) {

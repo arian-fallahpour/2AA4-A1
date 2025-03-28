@@ -1,4 +1,7 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Algorithm;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Vector;
 
 public class RightHandAlgorithm extends Algorithm {
     public RightHandAlgorithm(Vector position, Vector direction) {
@@ -7,7 +10,6 @@ public class RightHandAlgorithm extends Algorithm {
 
     public void solveMaze(Maze maze) {
         try {
-
             while (!maze.isEndPosition(this.position)) {    
                 if (maze.isOutOfBounds(this.position)) {
                     throw new Error("Algorithm failed to solve maze");

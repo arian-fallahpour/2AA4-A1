@@ -1,6 +1,10 @@
-package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner.Algorithm;
 
-abstract class Algorithm {
+import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.Path;
+import ca.mcmaster.se2aa4.mazerunner.Vector;
+
+public abstract class Algorithm {
     protected Vector direction;
     protected Vector position;
     protected Path path;

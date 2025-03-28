@@ -5,6 +5,14 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 
+import ca.mcmaster.se2aa4.mazerunner.Algorithm.Algorithm;
+import ca.mcmaster.se2aa4.mazerunner.Algorithm.RightHandAlgorithm;
+import ca.mcmaster.se2aa4.mazerunner.Algorithm.SimpleAlgorithm;
+
+/*
+ * Singleton for maze, Adapter for command
+ */
+
 public class Main {
     public static void main(String[] args) {
         Options options = new Options();
