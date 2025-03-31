@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import ca.mcmaster.se2aa4.mazerunner.enums.Instruction;
+
 public class Vector {
     public Integer x;
     public Integer y;
@@ -22,9 +24,14 @@ public class Vector {
     }
 
     // Rotates the vector 90 degrees in the specified direction and magnitude
-    public Vector rotate90(Integer direction) {
-        Integer x2 = this.y * (-direction % 2);
-        Integer y2 = -this.x * (-direction % 2);
+    public Vector rotate(Instruction instruction) {
+        if (instruction.equals(Instruction.F)) {
+            return this;
+        }
+
+        Integer factor = instruction.equals(Instruction.R) ? -1 : +1;
+        Integer x2 = this.y * (factor % 2);
+        Integer y2 = -this.x * (factor % 2);
         this.x = x2;
         this.y = y2;
         return this;   

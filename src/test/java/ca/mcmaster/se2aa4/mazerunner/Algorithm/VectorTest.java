@@ -4,12 +4,13 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import ca.mcmaster.se2aa4.mazerunner.Vector;
+import ca.mcmaster.se2aa4.mazerunner.enums.Instruction;
 
 public class VectorTest {
     @Test
     public void shouldRotate90Degrees() {
         Vector v1 = new Vector(0, 1);
-        v1.rotate90(+1);
+        v1.rotate(Instruction.R);
 
         Assertions.assertEquals((int) v1.x, -1);
         Assertions.assertEquals((int) v1.y, 0);

@@ -1,52 +1,24 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-
 import ca.mcmaster.se2aa4.mazerunner.Algorithm.Algorithm;
 import ca.mcmaster.se2aa4.mazerunner.Algorithm.RightHandAlgorithm;
 import ca.mcmaster.se2aa4.mazerunner.Algorithm.SimpleAlgorithm;
 
 /*
- * Singleton for maze, Adapter for command
+ * Singleton for maze (done) 
+ * Adapter for command line arguments (done)
  */
 
 public class Main {
     public static void main(String[] args) {
-        Options options = new Options();
-        CommandLineParser parser = new DefaultParser();
-
-        options.addOption("i", null, true, "Sets the maze to the filename provided.");
-        options.addOption("p", null, true, "Allows you to verify if a path is valid.");
-        options.addOption("method", null, true, "Allows you to choose the maze solving algorithm to use.");
-
         try {
-            CommandLine cmd = parser.parse(options, args);
-            
-            // Check if user provided the maze file
-            String filePath = "";
-            if (cmd.hasOption("i")) {
-                filePath += cmd.getOptionValue("i");
-            } else {
-                filePath += "./examples/straight.maz.txt";
-            }
+            Arguments arguments = new Arguments(args);
+            String filePath = arguments.getFilePath();
+            String providedInstructions = arguments.getProvidedInstructions();
+            String solvingMethod = arguments.getSolvingMethod();
 
-            // Check if user wants to verify their provided path
-            String providedInstructions = null;
-            if (cmd.hasOption("p")) {
-                providedInstructions = cmd.getOptionValue("p");
-            }
-
-            // Determine algorithm to use in order to solve maze
-            String solvingMethod = "righthand";
-            if (cmd.hasOption("method")) {
-                solvingMethod = cmd.getOptionValue("method");
-            }
-
-            // Initialize maze
-            Maze maze = new Maze(filePath);
+            Maze maze = Maze.getInstance();
+            maze.load(filePath);
 
             // If path was provided, check if it valid
             if (providedInstructions != null) {
@@ -62,6 +34,8 @@ public class Main {
                 return;
             }
             
+            // Could use the Factory Pattern to attach the specific algorithm here 
+
             // Otherwise, find the path using the maze
             Algorithm algorithm;
             if (solvingMethod.equals("simple")) {
@@ -73,7 +47,7 @@ public class Main {
             algorithm.solveMaze(maze);
             Path path = algorithm.getPath();
  
-            System.out.println(path.getFactoredInstructions());
+            System.out.println(path.getFactoredForm());
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }

@@ -4,57 +4,57 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class Maze {
-    private String filePath;
-    private String[][] maze;
+    private String[][] grid;
+    private Integer rows = 0;
+    private Integer cols = 0;
+
     private Vector startPosition;
-    private Vector endPosition;
     private Vector startDirection;
+    private Vector endPosition;
 
-    public Maze(String filePath) {
-        if (filePath == null) {
-            throw new IllegalArgumentException("File path cannot be null");
-        }
+    private static Maze instance = new Maze();
 
-        this.filePath = filePath;
-        
-        this.loadMaze();
+    private Maze() {}
+
+    public static Maze getInstance() {
+        return instance;
     }
 
-    // Displays the maze in the output
-    public void printMaze() {
-        for (int r = 0; r < this.maze.length; r++) {
-            for (int c = 0; c < this.maze[r].length; c++) {
-                System.out.print(this.maze[r][c]);
+    public void print() {
+        for (int r = 0; r < this.grid.length; r++) {
+            for (int c = 0; c < this.grid[r].length; c++) {
+                System.out.print(this.grid[r][c]);
             }
             System.out.print(System.lineSeparator());
         }
         System.out.print(System.lineSeparator());
     }
 
-    // Loads the maze from the file specified into private variable
-    public void loadMaze() {
-        Integer maxRows = 0;
-        Integer maxCols = 0;
-        String[][] temp = new String[1000][1000];
+    public void load(String filePath) {
+        this.setTempGrid(filePath);
+        this.setSizedGrid();
+        
+        this.setStartPosition();
+        this.setEndPosition();
+        this.setStartDirection();
+    }
 
+    private void setTempGrid(String filePath) {
+        this.rows = 0;
+        this.cols = 0;
+        
+        String[][] temp = new String[10000][10000];
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(this.filePath));
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
             
-            // Read maze and ssve it to temp array
             String line;
             while ((line = reader.readLine()) != null) {
                 for (int c = 0; c < line.length(); c++) {
                     Character character = line.charAt(c);
-                    if (character == '#') {
-                        temp[maxRows][c] = "#";
-                    }
-
-                    if (c + 1 > maxCols) {
-                        maxCols = c + 1;
-                    }
+                    if (character == '#') { temp[this.rows][c] = "#"; }
+                    if (c + 1 > this.cols) { this.cols = c + 1; }
                 }
-
-                maxRows++;
+                this.rows++;
             }
 
             reader.close();
@@ -62,23 +62,23 @@ public class Maze {
             throw new IllegalArgumentException(e.getMessage());
         }
 
-        // Copy temp array to maze array with correct size
-        this.maze = new String[maxRows][maxCols];
-        for (int r = 0; r < maxRows; r++) {
-            for (int c = 0; c < maxCols; c++) {
-                this.maze[r][c] = temp[r][c] != null ? "#" : " ";
+        this.grid = temp;
+    }
+
+    private void setSizedGrid() {
+        String[][] temp = this.grid.clone();
+
+        this.grid = new String[this.rows][this.cols];
+        for (int r = 0; r < this.rows; r++) {
+            for (int c = 0; c < this.cols; c++) {
+                this.grid[r][c] = temp[r][c] != null ? "#" : " ";
             }
         }
-
-        // Set position and direction vectors
-        this.setStartPosition();
-        this.setEndPosition();
-        this.setStartDirection();
     }
     
     private void setStartPosition() {
-        for (int r = 0; r < this.maze.length; r++) {
-            if (this.maze[r][0].equals(" ")) {
+        for (int r = 0; r < this.grid.length; r++) {
+            if (this.grid[r][0].equals(" ")) {
                 this.startPosition = new Vector(0, r);
                 break;
             }
@@ -86,9 +86,9 @@ public class Maze {
     }
 
     private void setEndPosition() {
-        Integer lastCol = this.maze[0].length - 1;
-        for (int r = 0; r < this.maze.length; r++) {
-            if (this.maze[r][lastCol].equals(" ")) {
+        Integer lastCol = this.grid[0].length - 1;
+        for (int r = 0; r < this.grid.length; r++) {
+            if (this.grid[r][lastCol].equals(" ")) {
                 this.endPosition = new Vector(lastCol, r);
                 break;
             }
@@ -101,7 +101,7 @@ public class Maze {
     
     // Checks if the position is empty on maze at specified position
     public Boolean isPositionEmpty(Vector position) {
-        return this.maze[position.y][position.x] == " ";
+        return this.grid[position.y][position.x] == " ";
     }
 
     // Checks if the position is the end poisition on maze at specified position
@@ -110,8 +110,8 @@ public class Maze {
     }
 
     public Boolean isOutOfBounds(Vector position) {
-        Integer rows = this.maze.length;
-        Integer cols = this.maze[0].length;
+        Integer rows = this.grid.length;
+        Integer cols = this.grid[0].length;
         return position.x < 0 || position.x >= cols || position.y < 0 || position.y >= rows;
     }
 

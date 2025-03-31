@@ -3,6 +3,7 @@ package ca.mcmaster.se2aa4.mazerunner.Algorithm;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 import ca.mcmaster.se2aa4.mazerunner.Path;
 import ca.mcmaster.se2aa4.mazerunner.Vector;
+import ca.mcmaster.se2aa4.mazerunner.enums.Instruction;
 
 public abstract class Algorithm {
     protected Vector direction;
@@ -17,20 +18,23 @@ public abstract class Algorithm {
 
     // Moves position one step forware in current direction
     public void moveForward() {
+        Instruction instruction = Instruction.F;
         this.position.add(this.direction);
-        this.path.addInstruction("F");
+        this.path.addInstruction(instruction);
     }
     
     // Turns current direction 90 degrees clockwise
     public void turnClockwise() {
-        this.direction.rotate90(1);
-        this.path.addInstruction("R");
+        Instruction instruction = Instruction.R;
+        this.direction.rotate(instruction);
+        this.path.addInstruction(instruction);
     }
     
     // Turns current direction 90 degrees counter clockwise
     public void turnCounterClockwise() {
-        this.direction.rotate90(-1);
-        this.path.addInstruction("L");
+        Instruction instruction = Instruction.L;
+        this.direction.rotate(instruction);
+        this.path.addInstruction(instruction);
     }
 
     // Returns player's position

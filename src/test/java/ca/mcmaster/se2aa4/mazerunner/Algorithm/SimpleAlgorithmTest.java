@@ -6,18 +6,20 @@ import org.junit.jupiter.api.Assertions;
 import ca.mcmaster.se2aa4.mazerunner.Maze;
 
 public class SimpleAlgorithmTest {
+    private static Maze maze = Maze.getInstance();
+
     @Test
     public void shouldSolveStraightMaze() {
-        Maze maze = new Maze("./examples/straight.maz.txt");
+        maze.load("./examples/straight.maz.txt");
         Algorithm algorithm = new SimpleAlgorithm(maze.getStartPosition(), maze.getStartDirection());
         algorithm.solveMaze(maze);
-        Assertions.assertEquals(algorithm.getPath().getFactoredInstructions(), "4F ");
+        Assertions.assertEquals(algorithm.getPath().getFactoredForm(), "4F ");
     }
 
     @Test
     public void shouldNotSolveSmallMaze() {
         try {
-            Maze maze = new Maze("./examples/straight.maz.txt");
+            maze.load("./examples/straight.maz.txt");
             Algorithm algorithm = new SimpleAlgorithm(maze.getStartPosition(), maze.getStartDirection());
             algorithm.solveMaze(maze);
         } catch(Exception e) {
